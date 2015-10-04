@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<meta charset="UTF-8" />
+
+	    <title>ClickGames</title>
+
+	    <script src="build/react.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	</head>
+
+	<body>
+		<div id="container">
+			<h2 id="title">Welcome to ClickGames!</h1>
+			<p id="description"></p> 
+
+			<div id="timer"></div>
+
+			<div id="game"></div>
+
+			<script type="text/babel">
+
+				var ClickScore = React.createClass({
+
+					getInitialState: function() {
+						return {
+							score: 0,
+							switchButton: 0,
+							secondsElapsed: 30
+						}
+					},
+
+					increment: function() {
+						{(() => {
+							if(this.state.secondsElapsed >= 1) {
+								this.setState({
+									score: this.state.score + 1,
+									switchButton: Math.random()
+								});
+							}
+						})()}	
+					},
+
+					reset: function() {
+						this.setState({
+							score: 0
+						})
+					},	
+
+					playAgain: function() {
+						this.setState({
+							score: 0,
+							switchButton: 0,
+							secondsElapsed: 30
+						})
+					},							
+
+					tick: function() {
+						{(() => {
+							if(this.state.secondsElapsed >= 1) {
+								this.setState({
+									secondsElapsed: this.state.secondsElapsed - 1
+								});
+							}
+						})()}	
+					},
+
+					componentDidMount: function() {
+						this.interval = setInterval(this.tick, 1000);
+					},
+
+					componentWillUnmount: function() {
+						clearInterval(this.interval);
+					},
+
+					render: function() {
+						return (
+							<div id="clickTime">
+								<div id="score">
+									<h1>
+										Score: {this.state.score}
+									</h1>
+
+									<h1>
+										Seconds Elapsed: {this.state.secondsElapsed}
+									</h1>
+
+									<h3>
+										{(() => {
+											if (this.state.switchButton >= 0.5) {
+												return <div id="buttons">
+														<button onClick={this.increment}>
+															Score!
+														</button>
+														<button onClick={this.reset}>
+															Reset!
+														</button></div>
+											}
+											else {
+												return <div id="buttons">
+														<button onClick={this.reset}>
+															Reset!
+														</button>
+														<button onClick={this.increment}>
+															Score!
+														</button></div>
+											}
+										})()}
+									</h3>
+									<h1>
+										<button onClick={this.playAgain}>Play Again</button>
+									</h1>
+								</div>
+							</div>
+						);	
+					}
+				});
+        React.render(<ClickScore />, document.getElementById('game'));
+			</script>
+		</div>
+	</body>
+</html>
