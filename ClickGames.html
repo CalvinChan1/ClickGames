@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8" />
 
@@ -12,7 +11,6 @@
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	</head>
-	
 	<body>
 		<div id="container">
 			<h2 id="title">Welcome to ClickGames!</h1>
@@ -30,7 +28,8 @@
 						return {
 							score: 0,
 							switchButton: 0,
-							secondsElapsed: 30
+							secondsElapsed: 30,
+							highScore: 0
 						}
 					},
 
@@ -40,6 +39,12 @@
 								this.setState({
 									score: this.state.score + 1,
 									switchButton: Math.random()
+								});
+							}
+
+							if(this.state.score >= this.state.highScore) {
+								this.setState({
+									highScore: this.state.score + 1
 								});
 							}
 						})()}	
@@ -57,11 +62,11 @@
 							switchButton: 0,
 							secondsElapsed: 30
 						})
-					},							
+					},				
 
 					tick: function() {
 						{(() => {
-							if(this.state.secondsElapsed >= 1) {
+							if(this.state.secondsElapsed >= 1 && this.state.score > 0) {
 								this.setState({
 									secondsElapsed: this.state.secondsElapsed - 1
 								});
@@ -81,16 +86,21 @@
 						return (
 							<div id="clickTime">
 								<div id="score">
+									<h2>
+										High Score: {this.state.highScore}
+									</h2>
+
 									<h1>
 										Score: {this.state.score}
 									</h1>
 
 									<h1>
-										Seconds Elapsed: {this.state.secondsElapsed}
+										Seconds Left: {this.state.secondsElapsed}
 									</h1>
 
 									<h3>
 										{(() => {
+
 											if (this.state.switchButton >= 0.5) {
 												return <div id="buttons">
 														<button onClick={this.increment}>
@@ -109,6 +119,7 @@
 															Score!
 														</button></div>
 											}
+
 										})()}
 									</h3>
 									<h1>
@@ -124,3 +135,4 @@
 		</div>
 	</body>
 </html>
+
