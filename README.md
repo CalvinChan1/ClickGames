@@ -1,2 +1,2 @@
 # ClickGames
-Addicting little click-game made while playing around with React.js
+Addicting/annoying little click-game made while playing around with React.js
